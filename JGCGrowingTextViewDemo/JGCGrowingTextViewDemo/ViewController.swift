@@ -11,28 +11,17 @@ import UIKit
 class ViewController: UIViewController, JGCGrowingTextViewDelegate {
 
     @IBOutlet weak var growingTextViewContainer: UIView!
-    @IBOutlet weak var growingTVContainerHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var growingTVContainerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var growingTVHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var growingTVBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var growingDismissButton: UIButton!
     @IBOutlet weak var growingDismissButtonHeightConstraint: NSLayoutConstraint!
-    
-    
-//    @IBOutlet weak var growingTextView: JGCGrowingTextView!
     
     var growingTextView: JGCGrowingTextView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-//        growingTextView = JGCGrowingTextView.init(delegate: self, parentView: growingTextViewContainer, dismissButton: growingDismissButton, dismissButtonHeightConstraint: growingDismissButtonHeightConstraint, growingTVContainerHeighConstraint: growingTVContainerHeightConstraint, growingTVContainerBottomConstraint: growingTVContainerBottomConstraint)
-        
         addGrowingTextView()
-//        self.view.addSubview(growingTextView)
-//        growingTextViewContainer.addSubview(growingTextView)
-//        UIView.embedView(view: growingTextView)
-
     }
 
     // MARK: - Private Methods
@@ -42,10 +31,10 @@ class ViewController: UIViewController, JGCGrowingTextViewDelegate {
         var frame = growingTextViewContainer.frame
         frame.size.width = UIScreen.main.bounds.size.width - 40.0
         
-        growingTextView = JGCGrowingTextView.init(frame: frame,delegate: self)
+        growingTextView = JGCGrowingTextView.init(frame: frame, delegate: self)
+        
         growingTextViewContainer.addSubview(growingTextView!)
         UIView.embedView(view: growingTextView!)
-//        growingTextViewContainer.bringSubview(toFront: growingTextView!)
     }
     
     // MARK: - User Actions
@@ -57,7 +46,11 @@ class ViewController: UIViewController, JGCGrowingTextViewDelegate {
     // MARK: - JGCGrowingTextViewDelegate
     
     func updateFrames(parentViewHeight: CGFloat) {
-        growingTVContainerHeightConstraint.constant = parentViewHeight
+        growingTVHeightConstraint.constant = parentViewHeight
+    }
+    
+    func updateGrowingBottomConstraint(constraintValue: CGFloat) {
+        growingTVBottomConstraint.constant = constraintValue
     }
 }
 

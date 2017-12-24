@@ -18,31 +18,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Growing Text View!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jLn-EW-sV8">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Growing Text View" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jLn-EW-sV8">
                                 <rect key="frame" x="20" y="64" width="335" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="3ac-kL-Xzp"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lSc-E0-0xq" customClass="JGCGrowingTextView" customModule="JGCGrowingTextViewDemo" customModuleProvider="target">
-                                <rect key="frame" x="20" y="154" width="335" height="50"/>
-                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="QW2-yL-NJX"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="bottomConstraint" destination="YdB-Je-f98" id="cVm-Yo-aXq"/>
-                                    <outlet property="dismissKeyboardButtonHeightConstraint" destination="ln6-fT-hhT" id="Uiq-38-V3K"/>
-                                    <outlet property="heightConstraint" destination="QW2-yL-NJX" id="8Zn-ad-eGG"/>
-                                </connections>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enjoy!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hto-7j-nAx">
-                                <rect key="frame" x="20" y="697" width="335" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="zUH-DX-DhZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -58,6 +37,28 @@
                                     <action selector="userDidTapDismissKeyboardButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HQS-RW-Dd1"/>
                                 </connections>
                             </button>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lSc-E0-0xq" customClass="JGCGrowingTextView" customModule="JGCGrowingTextViewDemo" customModuleProvider="target">
+                                <rect key="frame" x="20" y="154" width="335" height="30"/>
+                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="QW2-yL-NJX"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="bottomConstraint" destination="YdB-Je-f98" id="jE8-z8-ytU"/>
+                                    <outlet property="dismissKeyboardButton" destination="No8-sU-3co" id="i0J-6Q-tbj"/>
+                                    <outlet property="dismissKeyboardButtonHeightConstraint" destination="ln6-fT-hhT" id="EbC-AR-h3X"/>
+                                    <outlet property="heightConstraint" destination="QW2-yL-NJX" id="C9v-5f-KgQ"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fco. Javier García Castro" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hto-7j-nAx">
+                                <rect key="frame" x="20" y="737" width="335" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="zUH-DX-DhZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.4941176471" green="0.78039215689999997" blue="0.75294117650000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -66,7 +67,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jLn-EW-sV8" secondAttribute="trailing" constant="20" id="45L-Yr-hRv"/>
                             <constraint firstItem="jLn-EW-sV8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="4N5-F2-ozA"/>
                             <constraint firstItem="jLn-EW-sV8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="7m5-2U-60t"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hto-7j-nAx" secondAttribute="bottom" constant="60" id="DHp-cx-uVE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hto-7j-nAx" secondAttribute="bottom" constant="20" id="DHp-cx-uVE"/>
                             <constraint firstItem="lSc-E0-0xq" firstAttribute="top" secondItem="jLn-EW-sV8" secondAttribute="bottom" constant="60" id="LpX-kj-qFb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="No8-sU-3co" secondAttribute="trailing" id="RMe-BW-1Cs"/>
                             <constraint firstItem="hto-7j-nAx" firstAttribute="top" relation="greaterThanOrEqual" secondItem="lSc-E0-0xq" secondAttribute="bottom" constant="20" id="YdB-Je-f98"/>
@@ -78,10 +79,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="growingDismissButton" destination="No8-sU-3co" id="cPt-AD-vwB"/>
-                        <outlet property="growingDismissButtonHeightConstraint" destination="ln6-fT-hhT" id="vlb-br-tGN"/>
-                        <outlet property="growingTVContainerHeightConstraint" destination="QW2-yL-NJX" id="Vsb-1U-7dl"/>
-                        <outlet property="growingTextViewContainer" destination="lSc-E0-0xq" id="zTC-UH-b9X"/>
+                        <outlet property="growingDismissButton" destination="No8-sU-3co" id="VCb-gJ-LFJ"/>
+                        <outlet property="growingDismissButtonHeightConstraint" destination="ln6-fT-hhT" id="3Sn-11-Rhy"/>
+                        <outlet property="growingTVBottomConstraint" destination="YdB-Je-f98" id="Am5-t3-mYn"/>
+                        <outlet property="growingTVHeightConstraint" destination="QW2-yL-NJX" id="wYG-N0-vBP"/>
+                        <outlet property="growingTextViewContainer" destination="lSc-E0-0xq" id="sLF-uA-dKu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

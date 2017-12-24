@@ -9,17 +9,14 @@
 import UIKit
 
 @objc protocol JGCGrowingTextViewDelegate {
-    func updateFrames(parentViewHeight: CGFloat)
+    @objc optional func updateFrames(parentViewHeight: CGFloat)
+    @objc optional func updateGrowingBottomConstraint(constraintValue: CGFloat)
 }
 
 class JGCGrowingTextView: UIView, UITextViewDelegate {
-
-
-//    @IBOutlet weak var commentView: UIView!
-//    @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    
+
     @IBOutlet weak var dismissKeyboardButton: UIButton!
     @IBOutlet weak var dismissKeyboardButtonHeightConstraint: NSLayoutConstraint!
     
@@ -27,21 +24,13 @@ class JGCGrowingTextView: UIView, UITextViewDelegate {
     var delegate: JGCGrowingTextViewDelegate?
     var view: UIView?
     var parentView: UIView?
-//    var dismissKeyboardButton: UIButton?
-//    var dismissKeyboardButtonHeightConstraint: NSLayoutConstraint?
-//    var parentViewHeightConstraint: NSLayoutConstraint?
-//    var parentViewBottomConstraint: NSLayoutConstraint?
 
     var kPreferredTextViewToKeyboardOffset: CGFloat = 0.0
     var keyboardFrame: CGRect = CGRect.null
     var keyboardIsShowing: Bool = false
     var originParentView: CGPoint = CGPoint.zero
     
-    
     // Mark: - Initialize
-    
-    
-    ////
     
     convenience init(frame: CGRect, delegate:JGCGrowingTextViewDelegate) {
         self.init(frame: frame)
@@ -54,7 +43,6 @@ class JGCGrowingTextView: UIView, UITextViewDelegate {
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
-        
     }
     
     override init(frame: CGRect) {
@@ -65,60 +53,7 @@ class JGCGrowingTextView: UIView, UITextViewDelegate {
         super.didMoveToWindow()
         initialize()
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    /////
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        layoutIfNeeded()
-//
-//    }
-//
-//    func xibSetup() {
-//        view = loadViewFromNib()
-//        // use bounds not frame or it'll be offset
-//        view?.frame = bounds
-//        // Make the view stretch with containing view
-//        view?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
-//        // Adding custom subview on top of our view (over any custom drawing > see note below)
-//        addSubview(view!)
-//    }
-//
-//    func loadViewFromNib() -> UIView {
-//        let bundle = Bundle(for: type(of: self))
-//        let nib = UINib(nibName: "JGCGrowingTextView", bundle: bundle)
-//        // Assumes UIView is top level and only object in CustomView.xib file
-//        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-//
-//        return view
-//    }
-//
-//    init() {
-//        super.init(frame: CGRect.zero)
-//        xibSetup()
-//    }
-//
-//    convenience init(delegate:JGCGrowingTextViewDelegate, parentView: UIView, dismissButton: UIButton, dismissButtonHeightConstraint: NSLayoutConstraint, growingTVContainerHeighConstraint: NSLayoutConstraint, growingTVContainerBottomConstraint: NSLayoutConstraint) {
-//        self.init()
-//        self.delegate = delegate
-//        self.parentView = parentView
-//        self.dismissKeyboardButton = dismissButton
-//        self.dismissKeyboardButtonHeightConstraint = dismissButtonHeightConstraint
-//        self.parentViewBottomConstraint = growingTVContainerBottomConstraint
-//        self.parentViewHeightConstraint = growingTVContainerHeighConstraint
-//        initialize()
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//    }
-//
+
     // MARK: - Private Methods
     
     func initialize() {
@@ -129,36 +64,7 @@ class JGCGrowingTextView: UIView, UITextViewDelegate {
         self.textView?.delegate = self
         addSubview(textView!)
         UIView.embedView(view: textView!)
-        
-        
-//        self.parentView?.addSubview(self)
-//        UIView.embedView(view: self)
-
-//        self.addConstraintsToView(view:self, parentView:self.parentView!)
     }
-    
-    func addConstraintsToView(view: UIView, parentView: UIView) {
-        
-        let mainWindow: UIWindow = ((UIApplication.shared.delegate?.window)!)!
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        let constraints: NSMutableArray = NSMutableArray.init()
-        
-        let metrics:[String:Any] = ["height":parentView.frame.height, "width":parentView.frame.width]
-        
-        constraints.addObjects(from: NSLayoutConstraint.constraints(withVisualFormat: "H:[view(width)]", options: [], metrics: metrics, views: ["view":view]))
-        constraints.addObjects(from: NSLayoutConstraint.constraints(withVisualFormat: "V:[view(height)]", options: [], metrics: metrics, views: ["view":view]))
-        
-        constraints.add(NSLayoutConstraint.init(item: view, attribute: .centerY, relatedBy: .equal, toItem: parentView, attribute: .centerY, multiplier: 1.0, constant: 0.0))
-        constraints.add(NSLayoutConstraint.init(item: view, attribute: .centerX, relatedBy: .equal, toItem: parentView, attribute: .centerX, multiplier: 1.0, constant: 0.0))
-        
-        view.superview?.addConstraints(constraints as NSArray as! [NSLayoutConstraint])
-        
-//        self.frame = CGRect.init(x: 0, y: 0, width: 320.0, height: self.frame.height)
-
-    }
-    
     
     //Keyboard methods
     
@@ -167,11 +73,16 @@ class JGCGrowingTextView: UIView, UITextViewDelegate {
         if let info = notification.userInfo {
             self.keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
             self.originParentView = self.frame.origin
-           // subo addItemView para que no oculte el teclado al textView
-//            self.parentView?.frame.origin = CGPoint.init(x: (self.parentView?.frame.origin.x)!, y: (self.parentView?.frame.origin.y)! - ((self.parentView?.frame.size.height)! - self.keyboardFrame.origin.y))
-                        self.arrangeViewOffsetFromKeyboard()
+            
             //despliego el botton dismiss hasta el teclado
             self.dismissKeyboardButtonHeightConstraint?.constant = keyboardFrame.origin.y
+            
+            //Si ya hay texto
+            if self.origin.y + self.size.height > keyboardFrame.origin.y {
+                updateParentView(heightDifference: (self.frame.height + self.frame.origin.y) - keyboardFrame.height - 40.0)
+                let range = NSMakeRange(textView!.text.count - 1, 0)
+                textView!.scrollRangeToVisible(range)
+            }
         }
     }
     
@@ -179,8 +90,19 @@ class JGCGrowingTextView: UIView, UITextViewDelegate {
         self.keyboardIsShowing = false
         self.returnViewToInitialFrame()
         self.frame.origin = self.originParentView
+        
         //pliego el botton dismiss hasta arriba
         self.dismissKeyboardButtonHeightConstraint?.constant = 0
+        
+        let textViewFixedWidth: CGFloat = self.textView!.frame.size.width
+        let newSize: CGSize = self.textView!.sizeThatFits(CGSize.init(width: textViewFixedWidth, height: CGFloat(MAXFLOAT)))
+        var newFrame: CGRect = self.textView!.frame
+        let heightDifference = (self.textView?.frame.height)! - newSize.height
+
+        newFrame.size = CGSize.init(width: fmax(newSize.width, textViewFixedWidth), height: newSize.height)
+        newFrame.offsetBy(dx: 0.0, dy: heightDifference)
+
+        updateParentView(heightDifference: heightDifference)
     }
     
     func arrangeViewOffsetFromKeyboard() {
@@ -215,35 +137,35 @@ class JGCGrowingTextView: UIView, UITextViewDelegate {
         newContainerViewFrame.size = CGSize.init(width: self.frame.size.width, height: newContainerViewHeight)
         newContainerViewFrame.offsetBy(dx: 0.0, dy: containerViewHeightDifference)
         
-//        self.delegate?.updateFrames(parentViewHeight: newContainerViewFrame.height)
         self.heightConstraint?.constant = newContainerViewFrame.height
         self.frame = newContainerViewFrame
-        
     }
-    
     
     // MARK: - Public Methods
 
     func userDidTapDismissButton() {
-        dismissKeyboardButtonHeightConstraint?.constant = 0
-        self.endEditing(true)
+        textViewDidEndEditing(self.textView!)
+        self.superview?.endEditing(true)
     }
     
     //UITextViewDelegate
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if(self.keyboardIsShowing) {
-            //            self.arrangeViewOffsetFromKeyboard()
+//            self.arrangeViewOffsetFromKeyboard()
         }
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let textViewFixedWidth: CGFloat = self.textView!.frame.size.width
-        let newSize: CGSize = self.textView!.sizeThatFits(CGSize.init(width: textViewFixedWidth, height: CGFloat(MAXFLOAT)))
-        var newFrame: CGRect = self.textView!.frame
-        let heightDifference = (self.textView?.frame.height)! - newSize.height
+        let textViewFixedWidth: CGFloat = textView.frame.size.width
+        let newSize: CGSize = textView.sizeThatFits(CGSize.init(width: textViewFixedWidth, height: CGFloat(MAXFLOAT)))
+        var newFrame: CGRect = textView.frame
+        let heightDifference = (textView.frame.height) - newSize.height
         
-        if (abs(heightDifference) > 6 && (self.frame.origin.y + self.frame.origin.y + self.frame.height) < (self.keyboardFrame.origin.y - 20.0)) {
+        if newSize.height > self.keyboardFrame.origin.y {
+            updateParentView(heightDifference: 0.0)
+        }
+        else if (abs(heightDifference) > 6 && (self.frame.origin.y + self.frame.height) < (self.keyboardFrame.origin.y - 20.0)) {
             newFrame.size = CGSize.init(width: fmax(newSize.width, textViewFixedWidth), height: newSize.height)
             newFrame.offsetBy(dx: 0.0, dy: heightDifference)
             
@@ -254,4 +176,5 @@ class JGCGrowingTextView: UIView, UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.resignFirstResponder()
     }
+    
 }
